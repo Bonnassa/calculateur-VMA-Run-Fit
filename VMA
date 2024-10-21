@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur VMA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        label, p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+        input {
+            padding: 10px;
+            font-size: 1em;
+            margin: 5px 0 15px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            font-size: 1.1em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculateur de VMA</h1>
+
+        <label for="vma">Entrez votre VMA (km/h) :</label>
+        <input type="number" id="vma" placeholder="Ex: 12.5" step="0.1" required>
+
+        <label for="pourcentage">Entrez le % de VMA :</label>
+        <input type="number" id="pourcentage" placeholder="Ex: 80" required>
+
+        <button onclick="calculerVitesse()">Calculer</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculerVitesse() {
+            var vma = parseFloat(document.getElementById("vma").value);
+            var pourcentage = parseFloat(document.getElementById("pourcentage").value);
+
+            if (isNaN(vma) || isNaN(pourcentage) || vma <= 0 || pourcentage <= 0 || pourcentage > 100) {
+                document.getElementById("result").innerHTML = "Veuillez entrer des valeurs valides.";
+                return;
+            }
+
+            // Calcul de la vitesse de course en km/h
+            var vitesse = (vma * (pourcentage / 100)).toFixed(2);
+
+            // Calcul de l'allure en min/km
+            var allure = (60 / vitesse).toFixed(2);
+
+            // Conversion de l'allure (par exemple, 4.85 min/km) en minutes et secondes (par exemple, 4:51)
+            var minutes = Math.floor(allure);
+            var secondes = Math.round((allure - minutes) * 60);
+            secondes = secondes < 10 ? "0" + secondes : secondes; // Ajoute un zéro devant si les secondes sont < 10
+
+            // Affichage des résultats
+            document.getElementById("result").innerHTML = 
+                "Vitesse de course : " + vitesse + " km/h<br>" +
+                "Allure : " + minutes + ":" + secondes + " min/km";
+        }
+    </script>
+</body>
+</html>
